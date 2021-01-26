@@ -120,8 +120,8 @@ if __name__=="__main__":
     trainer_obj = Trainer(
                         dataset_name = args.dataset_name,
                         teacher_name = args.teacher_name,
-                        bs = args.bs,
-                        lr = args.lr,
-                        epochs = args.epochs
+                        bs           = args.bs,
+                        lr           = args.lr,
+                        epochs       = args.epochs
                         )
     trainer_obj.build()
