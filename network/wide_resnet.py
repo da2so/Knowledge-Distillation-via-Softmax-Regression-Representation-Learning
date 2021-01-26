@@ -133,19 +133,19 @@ class WideResNet(nn.Module):
 def wrn_16_1(num_classes):
     depth = 16
     kernel = 1
-    return WideResNet(16, 1, num_classes)
+    return WideResNet(depth, kernel, num_classes)
 
 def wrn_16_2(num_classes):
     depth = 16
     kernel = 2
-    return WideResNet(16, 1, num_classes)
+    return WideResNet(depth, kernel, num_classes)
 
 def wrn_40_1(num_classes):
     depth = 40
     kernel = 1
-    return WideResNet(16, 1, num_classes)
+    return WideResNet(depth, kernel, num_classes)
 
 def wrn_40_2(num_classes):
     depth = 40
     kernel = 2
-    return WideResNet(16, 1, num_classes)
+    return WideResNet(depth, kernel, num_classes)
