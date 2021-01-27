@@ -10,7 +10,7 @@ from network.utils import load_dataset, load_model_arch
 
 class Trainer():
     def __init__(self, dataset_name, teacher_name, bs, lr, epochs, 
-                dataset_path='./cache/dataset/', model_path='./cache/models/'):
+                dataset_path = './cache/dataset/', model_path = './cache/models/'):
 
         self.epochs = epochs
         self.bs = bs
@@ -35,8 +35,8 @@ class Trainer():
 
         self.teacher = load_model_arch(self.teacher_name, n_classes)
 
-        self.optimizer = torch.optim.SGD(self.teacher.parameters(), lr=lr, momentum=0.9, weight_decay=5e-4)
-        self.scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(self.optimizer, T_max=self.epochs)
+        self.optimizer = torch.optim.SGD(self.teacher.parameters(), lr = lr, momentum = 0.9, weight_decay = 5e-4)
+        self.scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(self.optimizer, T_max = self.epochs)
         self.criterion = torch.nn.CrossEntropyLoss().cuda()
 
             
@@ -101,20 +101,21 @@ class Trainer():
 
 
 if __name__=="__main__":
-    parser = argparse.ArgumentParser(description='Train Teacher with PyTorch')
+    parser = argparse.ArgumentParser(description = 'Train Teacher with PyTorch')
 
-    parser.add_argument('--dataset_name', type=str, default='cifar10', help='["cifar10", "cifar100"]')
+    parser.add_argument('--dataset_name', type = str, default = 'cifar10', help = '["cifar10", "cifar100"]')
     """
     Available teacher list :[
         mobilenetv2, 
         vgg11, vgg11_bn, vgg13, vgg13_bn, vgg16, vgg16_bn, vgg19, vgg19_bn,
-        resnet18, resnet34, resnet50, resnet101, resnet152
+        resnet10, resnet18, resnet34, resnet50, resnet101, resnet152,
+        wrn_16_1, wrn_16_2, wrn_40_1, wrn_40_2
     ]
     """
-    parser.add_argument('--teacher_name', type=str, default="resnet34", help='Teacher model name')
-    parser.add_argument('--bs', type=int, default=256, help='Batch size')
-    parser.add_argument('--lr', type=int, default=0.1, help='Learning rate')
-    parser.add_argument('--epochs', type=int, default=150, help='The number of epochs')
+    parser.add_argument('--teacher_name', type = str, default = 'resnet34', help = 'Teacher model name')
+    parser.add_argument('--bs', type = int, default = 256, help = 'Batch size')
+    parser.add_argument('--lr', type = int, default = 0.1, help = 'Learning rate')
+    parser.add_argument('--epochs', type = int, default = 150, help = 'The number of epochs')
     args = parser.parse_args()
 
     trainer_obj = Trainer(
