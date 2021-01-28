@@ -16,14 +16,14 @@ if __name__ == '__main__':
         wrn_16_1, wrn_16_2, wrn_40_1, wrn_40_2
     ]
     """
-    parser.add_argument('--student_name', type = str, default = 'resnet10', help = 'Style dataset path' )
+    parser.add_argument('--student_name', type = str, default = 'resnet10', help = 'Student network name' )
     parser.add_argument('--bs', type = str, default = 256, help = 'Batch size')
     parser.add_argument('--epochs', type = int, default = 150, help = 'The number of epochs')
     parser.add_argument('--lr', type = float, default = 0.1, help = 'Learning rate')
-    parser.add_argument('--img_shape', type = list, default = [3,32,32], help = 'Learning rate')
+    parser.add_argument('--img_shape', type = list, default = [3,32,32], help = 'input shape for a network')
     parser.add_argument('--save_path', type = str, default = './result/', help = 'Save path for student')
     parser.add_argument('--teacher_name', type = str, default = None, help = 'Teahcer architecture name')
-
+    
     args = parser.parse_args()
 
     kd_obj = KD(
