@@ -105,6 +105,7 @@ class WideResNet(nn.Module):
         self.batch_norm = nn.BatchNorm2d(filters[-1])
         self.activation = nn.ReLU(inplace=True)
         self.avg_pool = nn.AvgPool2d(kernel_size=8)
+        self.flatten = nn.Flatten()
         self.fc = nn.Linear(filters[-1], num_classes)
 
         for m in self.modules():
@@ -126,7 +127,7 @@ class WideResNet(nn.Module):
         out = self.batch_norm(attention3)
         out = self.activation(out)
         out = self.avg_pool(out)
-        out = out.view(-1, self.out_filters)
+        out = self.flatten(out)
         out = self.fc(out)
         return out
 

@@ -6,11 +6,12 @@ class VGG(nn.Module):
     def __init__(self, blocks, num_classes, batch_norm):
         super(VGG, self).__init__()
         self.features = self._make_layers(blocks, batch_norm)
+        self.flatten = nn.Flatten()
         self.classifier = nn.Linear(512, 10)
 
     def forward(self, x):
         out = self.features(x)
-        out = out.view(out.size(0), -1)
+        out = self.flatten(out)
         out = self.classifier(out)
         return out
 
