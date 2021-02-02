@@ -1,6 +1,7 @@
 import numpy as np
 
 import torch
+import torch.nn as nn
 
 from network.utils import load_model_arch
 
@@ -8,7 +9,7 @@ def cuda_available():
     use_cuda = torch.cuda.is_available()
     return use_cuda
 
-def load_teacher(model_path, model_name = None, num_classes = None):
+def load_model(model_path, model_name = None, num_classes = None):
     assert ('.pt' or '.pth') in model_path
 
     if torch.typename(torch.load(model_path)) == 'OrderedDict':
@@ -34,7 +35,8 @@ def get_finalconv_channel_num(model, img_shape):
 
         if type(layer) is torch.nn.modules.linear.Linear or \
             type (layer) is torch.nn.modules.pooling.AdaptiveAvgPool2d or \
-            type (layer) is torch.nn.modules.pooling.AvgPool2d:
+            type (layer) is torch.nn.modules.pooling.AvgPool2d or \
+            type (layer) is nn.modules.flatten.Flatten :
             break
         else:
             x = layer(x)
@@ -46,13 +48,15 @@ def get_finalconv_channel_num(model, img_shape):
 def get_finalconv(model):
 
     for name, layer in model._modules.items():
-        if type(layer) is torch.nn.modules.linear.Linear:
-            finalconv = layer
+        if type(layer) is nn.modules.linear.Linear or \
+            type (layer) is nn.modules.pooling.AdaptiveAvgPool2d or \
+            type (layer) is nn.modules.pooling.AvgPool2d or \
+            type (layer) is nn.modules.flatten.Flatten :
             break
         else:
-            pass
-    
-    return finalconv 
+            finalconv = layer
+
+    return finalconv    
 
 def get_T_classifer(model):
     """
@@ -61,7 +65,10 @@ def get_T_classifer(model):
     isClassifier = False
     layers = []
     for name, layer in model._modules.items():
-        if type(layer) is torch.nn.modules.linear.Linear:
+        if type(layer) is torch.nn.modules.linear.Linear or \
+            type (layer) is nn.modules.pooling.AdaptiveAvgPool2d or \
+            type (layer) is nn.modules.pooling.AvgPool2d or \
+            type (layer) is nn.modules.flatten.Flatten :
             isClassifier = True
         
         if isClassifier == True:
@@ -69,3 +76,5 @@ def get_T_classifer(model):
 
     T_classifier = torch.nn.Sequential(*layers)
     return T_classifier   
+
+
